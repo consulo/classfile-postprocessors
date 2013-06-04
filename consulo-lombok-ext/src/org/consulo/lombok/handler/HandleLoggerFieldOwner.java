@@ -79,7 +79,6 @@ public class HandleLoggerFieldOwner extends JavacAnnotationHandler<LoggerFieldOw
 		JCTree.JCExpression loggerType = chainDotsString(typeNode, LOG_CLASS);
 		JCTree.JCExpression factoryMethod = chainDotsString(typeNode, LOG_METHOD);
 
-		System.out.println(factoryMethod.getClass());
 		JCTree.JCMethodInvocation factoryMethodCall = maker.Apply(List.<JCTree.JCExpression>nil(), factoryMethod, List.<JCTree.JCExpression>of(loggingType));
 
 		JCTree.JCVariableDecl fieldDecl = recursiveSetGeneratedBy(maker.VarDef(maker.Modifiers(Flags.PRIVATE | Flags.FINAL | Flags.STATIC), typeNode.toName(LOG_FIELD_NAME), loggerType, factoryMethodCall), source);

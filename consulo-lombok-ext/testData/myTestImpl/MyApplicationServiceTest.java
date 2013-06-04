@@ -1,11 +1,5 @@
 package myTestImpl;
 
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import myTest.MyApplicationService;
-import myTest.MyModuleService;
-import myTest.MyProjectService;
-
 /**
  * User: VISTALL
  * Date: 03.06.13
@@ -13,8 +7,8 @@ import myTest.MyProjectService;
  */
 public class MyApplicationServiceTest {
     public static void main(String[] args) {
-        MyApplicationService.getInstance().testCall();
+      /*  MyApplicationService.getInstance().testCall();
         MyModuleService.getInstance(new Module()).call();
-        MyProjectService.getInstance(new Project()).test();
+        MyProjectService.getInstance(new Project()).test();  */
     }
 }

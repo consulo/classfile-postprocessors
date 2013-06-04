@@ -2,15 +2,12 @@ package org.consulo.lombok.handler;
 
 import static lombok.javac.handlers.JavacHandlerUtil.chainDotsString;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.lang.reflect.Modifier;
 
 import org.consulo.lombok.annotations.ApplicationService;
 import org.consulo.lombok.annotations.ModuleService;
 import org.consulo.lombok.annotations.ProjectService;
 import com.sun.tools.javac.tree.JCTree;
-import com.sun.tools.javac.tree.Pretty;
 import com.sun.tools.javac.tree.TreeMaker;
 import com.sun.tools.javac.util.List;
 import com.sun.tools.javac.util.Name;
@@ -139,7 +136,7 @@ public class HandleQService
 		final JCTree.JCClassDecl classDecl = (JCTree.JCClassDecl) classNode.get();
 
 		// if class is interface - make it abstract
-		makeAbstractClassIfInterfaceFound(classDecl);
+		// makeAbstractClassIfInterfaceFound(classDecl);
 
 		final JCTree.JCModifiers modifiers = createModifierListWithNotNull(treeMaker, classNode, Modifier.PUBLIC | Modifier.STATIC);
 
@@ -156,18 +153,6 @@ public class HandleQService
 		final JCTree.JCMethodDecl decl = treeMaker.MethodDef(modifiers, classNode.toName("getInstance"), JavacHandlerUtil.chainDotsString(classNode, classDecl.name.toString()), List.<JCTree.JCTypeParameter>nil(), serviceType.getArguments(treeMaker, classNode), List.<JCTree.JCExpression>nil(), blockDecl, null);
 
 		JavacHandlerUtil.injectMethod(classNode, decl);
-		try
-		{
-			StringWriter stringWriter = new StringWriter();
-			Pretty pretty = new Pretty(stringWriter, false);
-
-			pretty.print(classDecl);
-			System.out.println(stringWriter);
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
 	}
 
 	private static JCTree.JCModifiers createModifierListWithNotNull(TreeMaker treeMaker, JavacNode classNode, long val)

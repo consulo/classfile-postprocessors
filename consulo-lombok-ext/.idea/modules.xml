@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/lombok-consulo-ext.iml" filepath="$PROJECT_DIR$/lombok-consulo-ext.iml" />
+      <module fileurl="file://$PROJECT_DIR$/consulo-lombok-ext.iml" filepath="$PROJECT_DIR$/consulo-lombok-ext.iml" />
     </modules>
   </component>
 </project>

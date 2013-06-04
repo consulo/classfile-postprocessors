@@ -7,11 +7,11 @@ import org.consulo.lombok.annotations.ApplicationService;
  * @since 16:48/03.06.13
  */
 @ApplicationService
-public interface MyApplicationService
+public abstract class MyApplicationService
 {
-	int TEST_VALUE = 1;
+	public static final int TEST_VALUE = 1;
 
-	void testCall();
+	public abstract void testCall();
 
-	public int testCall2();
+	public abstract  int testCall2();
 }

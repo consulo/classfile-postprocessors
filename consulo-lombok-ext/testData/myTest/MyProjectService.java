@@ -7,7 +7,7 @@ import org.consulo.lombok.annotations.ProjectService;
  * @since 19:11/03.06.13
  */
 @ProjectService
-public interface MyProjectService
+public abstract class MyProjectService
 {
-	void test();
+	public abstract void test();
 }

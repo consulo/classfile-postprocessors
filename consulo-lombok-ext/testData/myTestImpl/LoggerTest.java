@@ -10,6 +10,6 @@ import org.consulo.lombok.annotations.LoggerFieldOwner;
 @LoggerFieldOwner
 public class LoggerTest {
     public void main() {
-        LOGGER.log();
+        //LOGGER.log();
     }
 }

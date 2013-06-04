@@ -8,3 +8,5 @@ testData/org/jetbrains/annotations/NotNull.java
 testData/com/intellij/openapi/diagnostic/Logger.java
 testData/myTest/ResolveContext.java
 testData/myTest/MyApplicationService.java
+testData/myTestImpl/MyApplicationServiceTest.java
+testData/myTestImpl/MyApplicationServiceImpl.java

@@ -7,7 +7,7 @@ import org.consulo.lombok.annotations.ModuleService;
  * @since 19:29/03.06.13
  */
 @ModuleService
-public interface MyModuleService
+public abstract class MyModuleService
 {
-	void call();
+	public abstract void call();
 }

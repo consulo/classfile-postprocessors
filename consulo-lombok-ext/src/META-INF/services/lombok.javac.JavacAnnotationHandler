@@ -1,4 +1,0 @@
-org.consulo.lombok.handler.HandleLoggerFieldOwner
-org.consulo.lombok.handler.HandleQService$HandleApplicationService
-org.consulo.lombok.handler.HandleQService$HandleProjectService
-org.consulo.lombok.handler.HandleQService$HandleModuleService

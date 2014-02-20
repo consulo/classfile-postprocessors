@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact name="jdom">
+    <output-path>$PROJECT_DIR$/out/artifacts/jdom</output-path>
+    <root id="root">
+      <element id="zip-archive" name="jdom.jar">
+        <element id="module-output" name="jdom" />
+      </element>
+      <element id="zip-archive" name="jdom-sources.jar">
+        <element id="dir-copy" path="$PROJECT_DIR$/jdom/src" />
+      </element>
+    </root>
+  </artifact>
+</component>

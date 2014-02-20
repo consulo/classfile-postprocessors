@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact name="forms_compiler">
+    <output-path>$PROJECT_DIR$/out/artifacts/forms_compiler</output-path>
+    <root id="root">
+      <element id="zip-archive" name="forms_compiler.jar">
+        <element id="module-output" name="forms-compiler" />
+      </element>
+      <element id="zip-archive" name="forms_compiler-sources.jar">
+        <element id="dir-copy" path="$PROJECT_DIR$/forms-compiler/src" />
+      </element>
+    </root>
+  </artifact>
+</component>

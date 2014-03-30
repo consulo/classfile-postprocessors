@@ -4,7 +4,6 @@
     <root id="root">
       <element id="artifact" artifact-name="forms_compiler" />
       <element id="artifact" artifact-name="instrumentation-util" />
-      <element id="artifact" artifact-name="jdom" />
       <element id="artifact" artifact-name="java2" />
     </root>
   </artifact>

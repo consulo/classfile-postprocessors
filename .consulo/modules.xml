@@ -8,33 +8,6 @@
         </content>
         <orderEntry type="sourceFolder" forTests="false" />
       </module>
-      <module name="jdom" dirurl="file://$PROJECT_DIR$/jdom">
-        <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
-        <content url="file://$MODULE_DIR$">
-          <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
-          <content-folder type="TEST" url="file://$MODULE_DIR$/test" />
-        </content>
-        <orderEntry type="module-extension-sdk" extension-id="java" />
-        <orderEntry type="sourceFolder" forTests="false" />
-        <orderEntry type="module-library" scope="TEST">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/../lib/junit-4.10.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
-        <orderEntry type="module-library">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/lib/jaxen-1.1.3.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
-      </module>
       <module name="forms-compiler" dirurl="file://$PROJECT_DIR$/forms-compiler">
         <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
         <content url="file://$MODULE_DIR$">
@@ -43,7 +16,6 @@
         </content>
         <orderEntry type="module-extension-sdk" extension-id="java" />
         <orderEntry type="sourceFolder" forTests="false" />
-        <orderEntry type="module" module-name="jdom" />
         <orderEntry type="module-library">
           <library>
             <CLASSES>

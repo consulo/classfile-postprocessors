@@ -43,16 +43,16 @@ import javax.swing.JComponent;
 import javax.swing.ListModel;
 import javax.swing.border.Border;
 
-import org.jetbrains.asm4.ClassReader;
-import org.jetbrains.asm4.ClassVisitor;
-import org.jetbrains.asm4.ClassWriter;
-import org.jetbrains.asm4.FieldVisitor;
-import org.jetbrains.asm4.Label;
-import org.jetbrains.asm4.MethodVisitor;
-import org.jetbrains.asm4.Opcodes;
-import org.jetbrains.asm4.Type;
-import org.jetbrains.asm4.commons.GeneratorAdapter;
-import org.jetbrains.asm4.commons.Method;
+import org.jetbrains.org.objectweb.asm.ClassReader;
+import org.jetbrains.org.objectweb.asm.ClassVisitor;
+import org.jetbrains.org.objectweb.asm.ClassWriter;
+import org.jetbrains.org.objectweb.asm.FieldVisitor;
+import org.jetbrains.org.objectweb.asm.Label;
+import org.jetbrains.org.objectweb.asm.MethodVisitor;
+import org.jetbrains.org.objectweb.asm.Opcodes;
+import org.jetbrains.org.objectweb.asm.Type;
+import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
+import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.compiler.instrumentation.InstrumentationClassFinder;
 import com.intellij.uiDesigner.UIFormXmlConstants;
 import com.intellij.uiDesigner.lw.*;
@@ -86,7 +86,7 @@ public class AsmCodeGenerator
 	private static final Type ourButtonGroupType = Type.getType(ButtonGroup.class);
 	private static final Type ourBorderFactoryType = Type.getType(BorderFactory.class);
 	private static final Type ourBorderType = Type.getType(Border.class);
-	private static final Method ourCreateTitledBorderMethod = Method.getMethod("javax.swing.border.TitledBorder createTitledBorder(javax.swing" +
+	private static final Method ourCreateTitledBorderMethod = Method.getMethod("javax.swing.border.TitledBorder createTitledBorder(javax.swing" + "" +
 			".border.Border,java.lang.String,int,int,java.awt.Font,java.awt.Color)");
 
 	private static final String ourBorderFactoryClientProperty = "BorderFactoryClass";
@@ -294,7 +294,7 @@ public class AsmCodeGenerator
 
 		public FormClassVisitor(final ClassVisitor cv, final boolean explicitSetupCall)
 		{
-			super(Opcodes.ASM4, cv);
+			super(Opcodes.ASM5, cv);
 			myExplicitSetupCall = explicitSetupCall;
 		}
 
@@ -369,7 +369,7 @@ public class AsmCodeGenerator
 			{
 				generator.visitVarInsn(Opcodes.ALOAD, 0);
 				int opcode = myCreateComponentsAccess == Opcodes.ACC_PRIVATE ? Opcodes.INVOKESPECIAL : Opcodes.INVOKEVIRTUAL;
-				generator.visitMethodInsn(opcode, myClassName, CREATE_COMPONENTS_METHOD_NAME, "()V");
+				generator.visitMethodInsn(opcode, myClassName, CREATE_COMPONENTS_METHOD_NAME, "()V", false);
 			}
 			buildSetupMethod(generator);
 
@@ -1095,7 +1095,7 @@ public class AsmCodeGenerator
 
 		public FormConstructorVisitor(final MethodVisitor mv, final String className, final String superName)
 		{
-			super(Opcodes.ASM4, mv);
+			super(Opcodes.ASM5, mv);
 			myClassName = className;
 			mySuperName = superName;
 		}
@@ -1111,7 +1111,7 @@ public class AsmCodeGenerator
 		}
 
 		@Override
-		public void visitMethodInsn(final int opcode, final String owner, final String name, final String desc)
+		public void visitMethodInsn(final int opcode, final String owner, final String name, final String desc, boolean ii)
 		{
 			if(opcode == Opcodes.INVOKESPECIAL && name.equals(CONSTRUCTOR_NAME))
 			{
@@ -1132,7 +1132,7 @@ public class AsmCodeGenerator
 			{
 				callSetupUI();
 			}
-			super.visitMethodInsn(opcode, owner, name, desc);
+			super.visitMethodInsn(opcode, owner, name, desc, ii);
 		}
 
 		@Override
@@ -1150,7 +1150,7 @@ public class AsmCodeGenerator
 			if(!mySetupCalled)
 			{
 				mv.visitVarInsn(Opcodes.ALOAD, 0);
-				mv.visitMethodInsn(Opcodes.INVOKESPECIAL, myClassName, SETUP_METHOD_NAME, "()V");
+				mv.visitMethodInsn(Opcodes.INVOKESPECIAL, myClassName, SETUP_METHOD_NAME, "()V", false);
 				mySetupCalled = true;
 			}
 		}
@@ -1172,7 +1172,7 @@ public class AsmCodeGenerator
 
 		public FirstPassClassVisitor()
 		{
-			super(Opcodes.ASM4, new ClassVisitor(Opcodes.ASM4)
+			super(Opcodes.ASM5, new ClassVisitor(Opcodes.ASM5)
 			{
 			});
 		}
@@ -1196,13 +1196,13 @@ public class AsmCodeGenerator
 		{
 			public FirstPassConstructorVisitor()
 			{
-				super(Opcodes.ASM4, new MethodVisitor(Opcodes.ASM4)
+				super(Opcodes.ASM5, new MethodVisitor(Opcodes.ASM5)
 				{
 				});
 			}
 
 			@Override
-			public void visitMethodInsn(final int opcode, final String owner, final String name, final String desc)
+			public void visitMethodInsn(final int opcode, final String owner, final String name, final String desc, boolean ii)
 			{
 				if(name.equals(SETUP_METHOD_NAME))
 				{

@@ -1,12 +1,13 @@
 package com.intellij.compiler.instrumentation;
 
-import org.jetbrains.asm4.ClassWriter;
+import org.jetbrains.org.objectweb.asm.ClassWriter;
 
 /**
 * @author Eugene Zhuravlev
 *         Date: 3/27/12
 */
-public class InstrumenterClassWriter extends ClassWriter {
+public class InstrumenterClassWriter extends ClassWriter
+{
   private final InstrumentationClassFinder myFinder;
 
   public InstrumenterClassWriter(int flags, final InstrumentationClassFinder finder) {

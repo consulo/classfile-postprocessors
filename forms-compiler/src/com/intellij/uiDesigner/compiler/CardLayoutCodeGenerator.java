@@ -15,13 +15,13 @@
  */
 package com.intellij.uiDesigner.compiler;
 
+import java.awt.CardLayout;
+
+import org.jetbrains.org.objectweb.asm.Type;
+import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
+import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.UIFormXmlConstants;
 import com.intellij.uiDesigner.lw.LwComponent;
-import org.jetbrains.asm4.Type;
-import org.jetbrains.asm4.commons.GeneratorAdapter;
-import org.jetbrains.asm4.commons.Method;
-
-import java.awt.*;
 
 /**
  * @author Alexander Lobas

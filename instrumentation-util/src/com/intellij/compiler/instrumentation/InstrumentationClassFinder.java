@@ -1,18 +1,22 @@
 package com.intellij.compiler.instrumentation;
 
-import org.jetbrains.asm4.ClassReader;
-import org.jetbrains.asm4.ClassVisitor;
-import org.jetbrains.asm4.MethodVisitor;
-import org.jetbrains.asm4.Opcodes;
-import sun.misc.Resource;
-
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import org.jetbrains.org.objectweb.asm.ClassReader;
+import org.jetbrains.org.objectweb.asm.ClassVisitor;
+import org.jetbrains.org.objectweb.asm.MethodVisitor;
+import org.jetbrains.org.objectweb.asm.Opcodes;
+import sun.misc.Resource;
 
 /**
  * @author Eugene Zhuravlev
@@ -390,7 +394,8 @@ public class InstrumentationClassFinder {
     }
   }
 
-  private static class V extends ClassVisitor {
+  private static class V extends ClassVisitor
+  {
     public String mySuperclassName = null;
     public String[] myInterfaces = null;
     public String myName = null;
@@ -398,7 +403,7 @@ public class InstrumentationClassFinder {
     private final List<PseudoMethod> myMethods = new ArrayList<PseudoMethod>();
 
     private V() {
-      super(Opcodes.ASM4);
+      super(Opcodes.ASM5);
     }
 
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {

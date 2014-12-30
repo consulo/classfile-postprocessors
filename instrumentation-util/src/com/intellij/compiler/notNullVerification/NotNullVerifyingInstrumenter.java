@@ -15,9 +15,7 @@
  */
 package com.intellij.compiler.notNullVerification;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.org.objectweb.asm.AnnotationVisitor;
@@ -27,6 +25,8 @@ import org.jetbrains.org.objectweb.asm.Label;
 import org.jetbrains.org.objectweb.asm.MethodVisitor;
 import org.jetbrains.org.objectweb.asm.Opcodes;
 import org.jetbrains.org.objectweb.asm.Type;
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 
 /**
  * @author ven
@@ -78,6 +78,7 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 		{
 			private String myClassName = null;
 
+			@Override
 			public void visit(final int version,
 					final int access,
 					final String name,
@@ -88,6 +89,7 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 				myClassName = name;
 			}
 
+			@Override
 			public MethodVisitor visitMethod(final int access,
 					final String name,
 					final String desc,
@@ -128,6 +130,19 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 		myClassName = name;
 	}
 
+	private static class NotNullState
+	{
+		@Nullable
+		String message;
+		@NotNull
+		String exceptionType;
+
+		NotNullState(String exceptionType)
+		{
+			this.exceptionType = exceptionType;
+		}
+	}
+
 	@Override
 	public MethodVisitor visitMethod(final int access, final String name, String desc, String signature, String[] exceptions)
 	{
@@ -137,35 +152,40 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 		final Map<Integer, String> paramNames = myMethodParamNames.get(myClassName + '.' + name + desc);
 		return new MethodVisitor(Opcodes.ASM5, v)
 		{
-
-			private final List<Integer> myNotNullParams = new ArrayList<Integer>();
+			private final Map<Integer, NotNullState> myNotNullParams = new LinkedHashMap<Integer, NotNullState>();
 			private int mySyntheticCount = 0;
-			private boolean myIsNotNull = false;
-			private String myMessage = null;
+			private NotNullState myMethodNotNull;
 			private Label myStartGeneratedCodeLabel;
 
+			private AnnotationVisitor collectNotNullArgs(AnnotationVisitor base, final NotNullState state)
+			{
+				return new AnnotationVisitor(Opcodes.ASM5, base)
+				{
+					@Override
+					public void visit(String methodName, Object o)
+					{
+						if(ANNOTATION_DEFAULT_METHOD.equals(methodName) && !((String) o).isEmpty())
+						{
+							state.message = (String) o;
+						}
+						else if("exception".equals(methodName) && o instanceof Type && !((Type) o).getClassName().equals(Exception.class.getName()))
+						{
+							state.exceptionType = ((Type) o).getInternalName();
+						}
+						super.visit(methodName, o);
+					}
+				};
+			}
+
+			@Override
 			public AnnotationVisitor visitParameterAnnotation(final int parameter, final String anno, final boolean visible)
 			{
 				AnnotationVisitor av = mv.visitParameterAnnotation(parameter, anno, visible);
 				if(isReferenceType(args[parameter]) && anno.equals(NOT_NULL_TYPE))
 				{
-					myNotNullParams.add(new Integer(parameter));
-					av = new AnnotationVisitor(Opcodes.ASM5, av)
-					{
-						@Override
-						public void visit(String methodName, Object o)
-						{
-							if(ANNOTATION_DEFAULT_METHOD.equals(methodName))
-							{
-								String message = (String) o;
-								if(!message.isEmpty())
-								{
-									myMessage = message;
-								}
-							}
-							super.visit(methodName, o);
-						}
-					};
+					NotNullState state = new NotNullState(IAE_CLASS_NAME);
+					myNotNullParams.put(new Integer(parameter), state);
+					av = collectNotNullArgs(av, state);
 				}
 				else if(anno.equals(SYNTHETIC_TYPE))
 				{
@@ -182,23 +202,8 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 				AnnotationVisitor av = mv.visitAnnotation(anno, isRuntime);
 				if(isReferenceType(returnType) && anno.equals(NOT_NULL_TYPE))
 				{
-					myIsNotNull = true;
-					av = new AnnotationVisitor(Opcodes.ASM5, av)
-					{
-						@Override
-						public void visit(String methodName, Object o)
-						{
-							if(ANNOTATION_DEFAULT_METHOD.equals(methodName))
-							{
-								String message = (String) o;
-								if(!message.isEmpty())
-								{
-									myMessage = message;
-								}
-							}
-							super.visit(methodName, o);
-						}
-					};
+					myMethodNotNull = new NotNullState(ISE_CLASS_NAME);
+					av = collectNotNullArgs(av, myMethodNotNull);
 				}
 
 				return av;
@@ -212,8 +217,9 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 					myStartGeneratedCodeLabel = new Label();
 					mv.visitLabel(myStartGeneratedCodeLabel);
 				}
-				for(Integer param : myNotNullParams)
+				for(Map.Entry<Integer, NotNullState> entry : myNotNullParams.entrySet())
 				{
+					Integer param = entry.getKey();
 					int var = ((access & ACC_STATIC) == 0) ? 1 : 0;
 					for(int i = 0; i < param; ++i)
 					{
@@ -224,22 +230,25 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 					Label end = new Label();
 					mv.visitJumpInsn(IFNONNULL, end);
 
+					NotNullState state = entry.getValue();
 					String paramName = paramNames == null ? null : paramNames.get(param);
-					String descrPattern = myMessage != null ? myMessage : paramName != null ? NULL_ARG_MESSAGE_NAMED : NULL_ARG_MESSAGE_INDEXED;
-					String[] args = myMessage != null ? EMPTY_STRING_ARRAY : new String[]{
+					String descrPattern = state.message != null ? state.message : paramName != null ? NULL_ARG_MESSAGE_NAMED :
+							NULL_ARG_MESSAGE_INDEXED;
+					String[] args = state.message != null ? EMPTY_STRING_ARRAY : new String[]{
 							paramName != null ? paramName : String.valueOf(param - mySyntheticCount),
 							myClassName,
 							name
 					};
-					generateThrow(IAE_CLASS_NAME, end, descrPattern, args);
+					generateThrow(state.exceptionType, end, descrPattern, args);
 				}
 			}
 
 			@Override
 			public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index)
 			{
-				final boolean isParameter = getParameterIndex(index, access, args) >= 0;
-				final Label label = (isParameter && myStartGeneratedCodeLabel != null) ? myStartGeneratedCodeLabel : start;
+				final boolean isStatic = (access & ACC_STATIC) != 0;
+				final boolean isParameterOrThisRef = isStatic ? index < args.length : index <= args.length;
+				final Label label = (isParameterOrThisRef && myStartGeneratedCodeLabel != null) ? myStartGeneratedCodeLabel : start;
 				mv.visitLocalVariable(name, desc, signature, label, end, index);
 			}
 
@@ -248,17 +257,17 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 			{
 				if(opcode == ARETURN)
 				{
-					if(myIsNotNull)
+					if(myMethodNotNull != null)
 					{
 						mv.visitInsn(DUP);
 						final Label skipLabel = new Label();
 						mv.visitJumpInsn(IFNONNULL, skipLabel);
-						String descrPattern = myMessage != null ? myMessage : NULL_RESULT_MESSAGE;
-						String[] args = myMessage != null ? EMPTY_STRING_ARRAY : new String[]{
+						String descrPattern = myMethodNotNull.message != null ? myMethodNotNull.message : NULL_RESULT_MESSAGE;
+						String[] args = myMethodNotNull.message != null ? EMPTY_STRING_ARRAY : new String[]{
 								myClassName,
 								name
 						};
-						generateThrow(ISE_CLASS_NAME, skipLabel, descrPattern, args);
+						generateThrow(myMethodNotNull.exceptionType, skipLabel, descrPattern, args);
 					}
 				}
 

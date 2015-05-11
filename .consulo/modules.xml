@@ -2,88 +2,86 @@
 <project version="4">
   <component name="ModuleManager">
     <modules>
-      <module name="consulo-common" dirurl="file://$PROJECT_DIR$">
-        <content url="file://$MODULE_DIR$">
-          <content-folder type="EXCLUDED" url="file://$MODULE_DIR$/.consulo" />
-        </content>
-        <orderEntry type="sourceFolder" forTests="false" />
+      <module name="consulo-common" dirurl="file://$PROJECT_DIR$" current-layer="Default">
+        <module-layer name="Default">
+          <content url="file://$MODULE_DIR$" />
+          <orderEntry type="sourceFolder" />
+        </module-layer>
       </module>
-      <module name="forms-compiler" dirurl="file://$PROJECT_DIR$/forms-compiler">
-        <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
-        <content url="file://$MODULE_DIR$">
-          <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
-          <content-folder type="TEST" url="file://$MODULE_DIR$/testSrc" />
-        </content>
-        <orderEntry type="module-extension-sdk" extension-id="java" />
-        <orderEntry type="sourceFolder" forTests="false" />
-        <orderEntry type="module-library">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/lib/forms_rt.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
-        <orderEntry type="module" module-name="instrumentation-util" />
-        <orderEntry type="library" name="JUnit" level="project" />
-        <orderEntry type="module-library">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/lib/jgoodies-common-1.6.0.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
-        <orderEntry type="module-library">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/lib/jgoodies-forms-1.7.1.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
-        <orderEntry type="module-library">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/lib/jgoodies-looks-2.5.3.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
+      <module name="forms-compiler" dirurl="file://$PROJECT_DIR$/forms-compiler" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+            <content-folder type="TEST" url="file://$MODULE_DIR$/testSrc" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="sourceFolder" />
+          <orderEntry type="module-library">
+            <library>
+              <binaries>
+                <root url="jar://$MODULE_DIR$/lib/forms_rt.jar!/" />
+              </binaries>
+            </library>
+          </orderEntry>
+          <orderEntry type="module" module-name="instrumentation-util" />
+          <orderEntry type="library" name="junit" level="project" />
+          <orderEntry type="module-library">
+            <library>
+              <binaries>
+                <root url="jar://$MODULE_DIR$/lib/jgoodies-common-1.6.0.jar!/" />
+              </binaries>
+            </library>
+          </orderEntry>
+          <orderEntry type="module-library">
+            <library>
+              <binaries>
+                <root url="jar://$MODULE_DIR$/lib/jgoodies-forms-1.7.1.jar!/" />
+              </binaries>
+            </library>
+          </orderEntry>
+          <orderEntry type="module-library">
+            <library>
+              <binaries>
+                <root url="jar://$MODULE_DIR$/lib/jgoodies-looks-2.5.3.jar!/" />
+              </binaries>
+            </library>
+          </orderEntry>
+          <orderEntry type="library" name="jdom" level="project" />
+          <orderEntry type="library" name="asm-all" level="project" />
+        </module-layer>
       </module>
-      <module name="instrumentation-util" dirurl="file://$PROJECT_DIR$/instrumentation-util">
-        <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
-        <content url="file://$MODULE_DIR$">
-          <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
-        </content>
-        <orderEntry type="module-extension-sdk" extension-id="java" />
-        <orderEntry type="sourceFolder" forTests="false" />
-        <orderEntry type="library" exploded="" name="ASM4" level="project" />
+      <module name="instrumentation-util" dirurl="file://$PROJECT_DIR$/instrumentation-util" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="sourceFolder" />
+          <orderEntry type="library" name="asm-all" level="project" />
+        </module-layer>
       </module>
-      <module name="javac2" dirurl="file://$PROJECT_DIR$/javac2">
-        <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
-        <content url="file://$MODULE_DIR$">
-          <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
-        </content>
-        <orderEntry type="module-extension-sdk" extension-id="java" />
-        <orderEntry type="sourceFolder" forTests="false" />
-        <orderEntry type="module-library">
-          <library>
-            <CLASSES>
-              <root url="jar://$MODULE_DIR$/lib/ant.jar!/" />
-            </CLASSES>
-            <DOCUMENTATION />
-            <SOURCES />
-          </library>
-        </orderEntry>
-        <orderEntry type="module" module-name="instrumentation-util" />
-        <orderEntry type="module" module-name="forms-compiler" />
+      <module name="javac2" dirurl="file://$PROJECT_DIR$/javac2" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="sourceFolder" />
+          <orderEntry type="module-library">
+            <library>
+              <binaries>
+                <root url="jar://$MODULE_DIR$/lib/ant.jar!/" />
+              </binaries>
+            </library>
+          </orderEntry>
+          <orderEntry type="module" module-name="instrumentation-util" />
+          <orderEntry type="module" module-name="forms-compiler" />
+          <orderEntry type="library" name="asm-all" level="project" />
+        </module-layer>
       </module>
     </modules>
   </component>
 </project>
-

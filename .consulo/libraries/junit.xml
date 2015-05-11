@@ -1,0 +1,7 @@
+<component name="libraryTable">
+  <library name="junit">
+    <binaries>
+      <root url="jar://$PROJECT_DIR$/lib/junit-4.10.jar!/" />
+    </binaries>
+  </library>
+</component>

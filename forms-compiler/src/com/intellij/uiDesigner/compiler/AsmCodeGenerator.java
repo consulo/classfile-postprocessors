@@ -122,6 +122,12 @@ public class AsmCodeGenerator
 	}
 
 	public AsmCodeGenerator(LwRootContainer rootContainer, InstrumentationClassFinder finder, NestedFormLoader formLoader,
+			final boolean ignoreCustomCreation, final ClassWriter classWriter)
+	{
+		this(rootContainer, finder, formLoader, ignoreCustomCreation, classWriter, false);
+	}
+
+	public AsmCodeGenerator(LwRootContainer rootContainer, InstrumentationClassFinder finder, NestedFormLoader formLoader,
 			final boolean ignoreCustomCreation, final ClassWriter classWriter, boolean useJBScaling)
 	{
 		myFormLoader = formLoader;

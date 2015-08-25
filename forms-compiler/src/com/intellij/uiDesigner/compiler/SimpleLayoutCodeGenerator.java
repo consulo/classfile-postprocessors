@@ -44,8 +44,8 @@ public class SimpleLayoutCodeGenerator extends LayoutCodeGenerator
 
 		generator.newInstance(myLayoutType);
 		generator.dup();
-		generator.push(Utils.getHGap(lwContainer.getLayout()));
-		generator.push(Utils.getVGap(lwContainer.getLayout()));
+		generator.pushScaled(Utils.getHGap(lwContainer.getLayout()));
+		generator.pushScaled(Utils.getVGap(lwContainer.getLayout()));
 
 		generator.invokeConstructor(myLayoutType, ourConstructor);
 

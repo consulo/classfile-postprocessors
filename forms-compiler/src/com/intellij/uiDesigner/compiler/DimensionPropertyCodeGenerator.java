@@ -18,7 +18,6 @@ package com.intellij.uiDesigner.compiler;
 import java.awt.Dimension;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 
 /**
@@ -27,16 +26,16 @@ import org.jetbrains.org.objectweb.asm.commons.Method;
  */
 public class DimensionPropertyCodeGenerator extends PropertyCodeGenerator
 {
-	private static final Type myDimensionType = Type.getType(Dimension.class);
-	private static final Method myInitMethod = Method.getMethod("void <init>(int,int)");
+	private static final Type ourDimensionType = Type.getType(Dimension.class);
+	private static final Method ourInitMethod = Method.getMethod("void <init>(int,int)");
 
-	public void generatePushValue(final GeneratorAdapter generator, final Object value)
+	public void generatePushValue(final UIGeneratorAdapter generator, final Object value)
 	{
 		Dimension dimension = (Dimension) value;
-		generator.newInstance(myDimensionType);
+		generator.newInstance(ourDimensionType);
 		generator.dup();
-		generator.push(dimension.width);
-		generator.push(dimension.height);
-		generator.invokeConstructor(myDimensionType, myInitMethod);
+		generator.pushScaled(dimension.width);
+		generator.pushScaled(dimension.height);
+		generator.invokeConstructor(ourDimensionType, ourInitMethod);
 	}
 }

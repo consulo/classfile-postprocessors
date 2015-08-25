@@ -93,6 +93,7 @@ public class AsmCodeGenerator
 
 	private final NestedFormLoader myFormLoader;
 	private final boolean myIgnoreCustomCreation;
+	private final boolean myUseJBScaling;
 	private final ClassWriter myClassWriter;
 
 	static
@@ -121,10 +122,11 @@ public class AsmCodeGenerator
 	}
 
 	public AsmCodeGenerator(LwRootContainer rootContainer, InstrumentationClassFinder finder, NestedFormLoader formLoader,
-			final boolean ignoreCustomCreation, final ClassWriter classWriter)
+			final boolean ignoreCustomCreation, final ClassWriter classWriter, boolean useJBScaling)
 	{
 		myFormLoader = formLoader;
 		myIgnoreCustomCreation = ignoreCustomCreation;
+		myUseJBScaling = useJBScaling;
 		if(finder == null)
 		{
 			throw new IllegalArgumentException("loader cannot be null");
@@ -246,7 +248,7 @@ public class AsmCodeGenerator
 		return myPatchedData;
 	}
 
-	static void pushPropValue(GeneratorAdapter generator, String propertyClass, Object value)
+	static void pushPropValue(UIGeneratorAdapter generator, String propertyClass, Object value)
 	{
 		PropertyCodeGenerator codeGen = (PropertyCodeGenerator) myPropertyCodeGenerators.get(propertyClass);
 		if(codeGen == null)
@@ -364,7 +366,8 @@ public class AsmCodeGenerator
 			}
 
 			Method method = Method.getMethod("void " + SETUP_METHOD_NAME + " ()");
-			GeneratorAdapter generator = new GeneratorAdapter(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, method, null, null, cv);
+			UIGeneratorAdapter generator = new UIGeneratorAdapter(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, method,
+					null, null, cv, myUseJBScaling);
 			if(haveCustomCreateComponents && myHaveCreateComponentsMethod)
 			{
 				generator.visitVarInsn(Opcodes.ALOAD, 0);
@@ -392,7 +395,8 @@ public class AsmCodeGenerator
 		{
 			final Type componentType = Type.getType(JComponent.class);
 			final Method method = new Method(GET_ROOT_COMPONENT_METHOD_NAME, componentType, new Type[0]);
-			GeneratorAdapter generator = new GeneratorAdapter(Opcodes.ACC_PUBLIC | Opcodes.ACC_SYNTHETIC, method, null, null, cv);
+			GeneratorAdapter generator = new UIGeneratorAdapter(Opcodes.ACC_PUBLIC | Opcodes.ACC_SYNTHETIC, method,
+					null, null, cv, myUseJBScaling);
 
 			final LwComponent topComponent = (LwComponent) myRootContainer.getComponent(0);
 			final String binding = topComponent.getBinding();
@@ -403,7 +407,7 @@ public class AsmCodeGenerator
 			generator.endMethod();
 		}
 
-		private void buildSetupMethod(final GeneratorAdapter generator)
+		private void buildSetupMethod(final UIGeneratorAdapter generator)
 		{
 			try
 			{
@@ -420,7 +424,7 @@ public class AsmCodeGenerator
 			generator.endMethod();
 		}
 
-		private void generateSetupCodeForComponent(final LwComponent lwComponent, final GeneratorAdapter generator,
+		private void generateSetupCodeForComponent(final LwComponent lwComponent, final UIGeneratorAdapter generator,
 				final int parentLocal) throws CodeGenerationException
 		{
 
@@ -603,7 +607,7 @@ public class AsmCodeGenerator
 		}
 
 		private void generateComponentProperties(final LwComponent lwComponent, final InstrumentationClassFinder.PseudoClass componentClass,
-				final GeneratorAdapter generator, final int componentLocal) throws CodeGenerationException
+				final UIGeneratorAdapter generator, final int componentLocal) throws CodeGenerationException
 		{
 			// introspected properties
 			final LwIntrospectedProperty[] introspectedProperties = lwComponent.getAssignedIntrospectedProperties();
@@ -986,7 +990,7 @@ public class AsmCodeGenerator
 			}
 		}
 
-		private void generateBorder(final LwContainer container, final GeneratorAdapter generator, final int componentLocal)
+		private void generateBorder(final LwContainer container, final UIGeneratorAdapter generator, final int componentLocal)
 		{
 			final BorderType borderType = container.getBorderType();
 			final StringDescriptor borderTitle = container.getBorderTitle();
@@ -1059,7 +1063,7 @@ public class AsmCodeGenerator
 			}
 		}
 
-		private void pushBorderProperties(final LwContainer container, final GeneratorAdapter generator, final StringDescriptor borderTitle,
+		private void pushBorderProperties(final LwContainer container, final UIGeneratorAdapter generator, final StringDescriptor borderTitle,
 				final int componentLocal)
 		{
 			pushPropValue(generator, "java.lang.String", borderTitle);

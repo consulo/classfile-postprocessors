@@ -18,7 +18,6 @@ package com.intellij.uiDesigner.compiler;
 import java.awt.CardLayout;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.UIFormXmlConstants;
 import com.intellij.uiDesigner.lw.LwComponent;
@@ -26,28 +25,32 @@ import com.intellij.uiDesigner.lw.LwComponent;
 /**
  * @author Alexander Lobas
  */
-public class CardLayoutCodeGenerator extends SimpleLayoutCodeGenerator {
-  private static final Method ourGetLayoutMethod = Method.getMethod("java.awt.LayoutManager getLayout()");
-  private static final Method ourShowMethod = Method.getMethod("void show(java.awt.Container,java.lang.String)");
+public class CardLayoutCodeGenerator extends SimpleLayoutCodeGenerator
+{
+	private static final Method ourGetLayoutMethod = Method.getMethod("java.awt.LayoutManager getLayout()");
+	private static final Method ourShowMethod = Method.getMethod("void show(java.awt.Container,java.lang.String)");
 
-  public CardLayoutCodeGenerator() {
-    super(Type.getType(CardLayout.class));
-  }
+	public CardLayoutCodeGenerator()
+	{
+		super(Type.getType(CardLayout.class));
+	}
 
-  public void generateComponentLayout(LwComponent lwComponent,
-                                      GeneratorAdapter generator,
-                                      int componentLocal,
-                                      int parentLocal) {
-    super.generateComponentLayout(lwComponent, generator, componentLocal, parentLocal);
+	public void generateComponentLayout(LwComponent lwComponent,
+			UIGeneratorAdapter generator,
+			int componentLocal,
+			int parentLocal)
+	{
+		super.generateComponentLayout(lwComponent, generator, componentLocal, parentLocal);
 
-    String defaultCard = (String)lwComponent.getParent().getClientProperty(UIFormXmlConstants.LAYOUT_CARD);
-    if (lwComponent.getId().equals(defaultCard)) {
-      generator.loadLocal(parentLocal);
-      generator.invokeVirtual(ourContainerType, ourGetLayoutMethod);
-      generator.checkCast(myLayoutType);
-      generator.loadLocal(parentLocal);
-      generator.push((String) lwComponent.getCustomLayoutConstraints());
-      generator.invokeVirtual(myLayoutType, ourShowMethod);
-    }
-  }
+		String defaultCard = (String) lwComponent.getParent().getClientProperty(UIFormXmlConstants.LAYOUT_CARD);
+		if(lwComponent.getId().equals(defaultCard))
+		{
+			generator.loadLocal(parentLocal);
+			generator.invokeVirtual(ourContainerType, ourGetLayoutMethod);
+			generator.checkCast(myLayoutType);
+			generator.loadLocal(parentLocal);
+			generator.push((String) lwComponent.getCustomLayoutConstraints());
+			generator.invokeVirtual(myLayoutType, ourShowMethod);
+		}
+	}
 }

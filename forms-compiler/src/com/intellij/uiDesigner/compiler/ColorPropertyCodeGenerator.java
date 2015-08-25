@@ -19,7 +19,6 @@ import java.awt.Color;
 import java.awt.SystemColor;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.ColorDescriptor;
 
@@ -36,7 +35,7 @@ public class ColorPropertyCodeGenerator extends PropertyCodeGenerator {
   private static final Method ourInitMethod = Method.getMethod("void <init>(int)");
   private static final Method ourGetColorMethod = new Method("getColor", ourColorType, new Type[] { ourObjectType } );
 
-  public void generatePushValue(final GeneratorAdapter generator, final Object value) {
+  public void generatePushValue(final UIGeneratorAdapter generator, final Object value) {
     ColorDescriptor descriptor = (ColorDescriptor) value;
     if (descriptor.getColor() != null) {
       generator.newInstance(ourColorType);

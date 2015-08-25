@@ -18,7 +18,6 @@ package com.intellij.uiDesigner.compiler;
 import javax.swing.JSplitPane;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 import com.intellij.uiDesigner.lw.LwSplitPane;
@@ -26,22 +25,26 @@ import com.intellij.uiDesigner.lw.LwSplitPane;
 /**
  * @author yole
  */
-public class SplitPaneLayoutCodeGenerator extends LayoutCodeGenerator {
-  private final Type mySplitPaneType = Type.getType(JSplitPane.class);
-  private final Method mySetLeftMethod = Method.getMethod("void setLeftComponent(java.awt.Component)");
-  private final Method mySetRightMethod = Method.getMethod("void setRightComponent(java.awt.Component)");
+public class SplitPaneLayoutCodeGenerator extends LayoutCodeGenerator
+{
+	private final Type mySplitPaneType = Type.getType(JSplitPane.class);
+	private final Method mySetLeftMethod = Method.getMethod("void setLeftComponent(java.awt.Component)");
+	private final Method mySetRightMethod = Method.getMethod("void setRightComponent(java.awt.Component)");
 
-  public void generateComponentLayout(final LwComponent lwComponent,
-                                      final GeneratorAdapter generator,
-                                      final int componentLocal,
-                                      final int parentLocal) {
-    generator.loadLocal(parentLocal);
-    generator.loadLocal(componentLocal);
-    if (LwSplitPane.POSITION_LEFT.equals(lwComponent.getCustomLayoutConstraints())) {
-      generator.invokeVirtual(mySplitPaneType, mySetLeftMethod);
-    }
-    else {
-      generator.invokeVirtual(mySplitPaneType, mySetRightMethod);
-    }
-  }
+	public void generateComponentLayout(final LwComponent lwComponent,
+			final UIGeneratorAdapter generator,
+			final int componentLocal,
+			final int parentLocal)
+	{
+		generator.loadLocal(parentLocal);
+		generator.loadLocal(componentLocal);
+		if(LwSplitPane.POSITION_LEFT.equals(lwComponent.getCustomLayoutConstraints()))
+		{
+			generator.invokeVirtual(mySplitPaneType, mySetLeftMethod);
+		}
+		else
+		{
+			generator.invokeVirtual(mySplitPaneType, mySetRightMethod);
+		}
+	}
 }

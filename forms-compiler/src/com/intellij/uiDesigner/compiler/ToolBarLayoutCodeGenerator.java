@@ -16,22 +16,23 @@
 
 package com.intellij.uiDesigner.compiler;
 
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 
 /**
  * @author yole
  */
-public class ToolBarLayoutCodeGenerator extends LayoutCodeGenerator {
-  private final static Method ourAddMethod = Method.getMethod("java.awt.Component add(java.awt.Component)");
+public class ToolBarLayoutCodeGenerator extends LayoutCodeGenerator
+{
+	private final static Method ourAddMethod = Method.getMethod("java.awt.Component add(java.awt.Component)");
 
-  public void generateComponentLayout(final LwComponent lwComponent,
-                                      final GeneratorAdapter generator,
-                                      final int componentLocal,
-                                      final int parentLocal) {
-    generator.loadLocal(parentLocal);
-    generator.loadLocal(componentLocal);
-    generator.invokeVirtual(ourContainerType, ourAddMethod);
-  }
+	public void generateComponentLayout(final LwComponent lwComponent,
+			final UIGeneratorAdapter generator,
+			final int componentLocal,
+			final int parentLocal)
+	{
+		generator.loadLocal(parentLocal);
+		generator.loadLocal(componentLocal);
+		generator.invokeVirtual(ourContainerType, ourAddMethod);
+	}
 }

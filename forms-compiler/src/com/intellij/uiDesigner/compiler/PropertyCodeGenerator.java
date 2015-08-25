@@ -26,7 +26,7 @@ import com.intellij.uiDesigner.lw.LwIntrospectedProperty;
  * @author yole
  */
 public abstract class PropertyCodeGenerator {
-  public abstract void generatePushValue(final GeneratorAdapter generator, final Object value);
+  public abstract void generatePushValue(final UIGeneratorAdapter generator, final Object value);
 
   public boolean generateCustomSetValue(final LwComponent lwComponent,
                                         final InstrumentationClassFinder.PseudoClass componentClass, final LwIntrospectedProperty property,

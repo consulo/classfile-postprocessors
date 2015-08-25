@@ -18,7 +18,6 @@ package com.intellij.uiDesigner.compiler;
 import java.awt.Insets;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 
 /**
@@ -27,14 +26,14 @@ import org.jetbrains.org.objectweb.asm.commons.Method;
 public class InsetsPropertyCodeGenerator extends PropertyCodeGenerator {
   private final Type myInsetsType = Type.getType(Insets.class);
 
-  public void generatePushValue(final GeneratorAdapter generator, final Object value) {
+  public void generatePushValue(final UIGeneratorAdapter generator, final Object value) {
     final Insets insets = (Insets)value;
     generator.newInstance(myInsetsType);
     generator.dup();
-    generator.push(insets.top);
-    generator.push(insets.left);
-    generator.push(insets.bottom);
-    generator.push(insets.right);
+    generator.pushScaled(insets.top);
+    generator.pushScaled(insets.left);
+    generator.pushScaled(insets.bottom);
+    generator.pushScaled(insets.right);
     generator.invokeConstructor(myInsetsType, Method.getMethod("void <init>(int,int,int,int)"));
   }
 }

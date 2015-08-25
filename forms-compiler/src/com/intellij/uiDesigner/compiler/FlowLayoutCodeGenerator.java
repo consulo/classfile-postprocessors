@@ -19,7 +19,6 @@ package com.intellij.uiDesigner.compiler;
 import java.awt.FlowLayout;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 import com.intellij.uiDesigner.lw.LwContainer;
@@ -27,29 +26,35 @@ import com.intellij.uiDesigner.lw.LwContainer;
 /**
  * @author yole
  */
-public class FlowLayoutCodeGenerator extends LayoutCodeGenerator {
-  private static final Type ourFlowLayoutType = Type.getType(FlowLayout.class);
-  private static final Method ourConstructor = Method.getMethod("void <init>(int,int,int)");
+public class FlowLayoutCodeGenerator extends LayoutCodeGenerator
+{
+	private static final Type ourFlowLayoutType = Type.getType(FlowLayout.class);
+	private static final Method ourConstructor = Method.getMethod("void <init>(int,int,int)");
 
-  public void generateContainerLayout(final LwContainer lwContainer, final GeneratorAdapter generator, final int componentLocal) {
-    generator.loadLocal(componentLocal);
+	public void generateContainerLayout(final LwContainer lwContainer,
+			final UIGeneratorAdapter generator,
+			final int componentLocal)
+	{
+		generator.loadLocal(componentLocal);
 
-    FlowLayout flowLayout = (FlowLayout) lwContainer.getLayout();
-    generator.newInstance(ourFlowLayoutType);
-    generator.dup();
-    generator.push(flowLayout.getAlignment());
-    generator.push(flowLayout.getHgap());
-    generator.push(flowLayout.getVgap());
-    generator.invokeConstructor(ourFlowLayoutType, ourConstructor);
+		FlowLayout flowLayout = (FlowLayout) lwContainer.getLayout();
+		generator.newInstance(ourFlowLayoutType);
+		generator.dup();
+		generator.push(flowLayout.getAlignment());
+		generator.push(flowLayout.getHgap());
+		generator.push(flowLayout.getVgap());
+		generator.invokeConstructor(ourFlowLayoutType, ourConstructor);
 
-    generator.invokeVirtual(ourContainerType, ourSetLayoutMethod);
-  }
-  public void generateComponentLayout(final LwComponent lwComponent,
-                                      final GeneratorAdapter generator,
-                                      final int componentLocal,
-                                      final int parentLocal) {
-    generator.loadLocal(parentLocal);
-    generator.loadLocal(componentLocal);
-    generator.invokeVirtual(ourContainerType, ourAddNoConstraintMethod);
-  }
+		generator.invokeVirtual(ourContainerType, ourSetLayoutMethod);
+	}
+
+	public void generateComponentLayout(final LwComponent lwComponent,
+			final UIGeneratorAdapter generator,
+			final int componentLocal,
+			final int parentLocal)
+	{
+		generator.loadLocal(parentLocal);
+		generator.loadLocal(componentLocal);
+		generator.invokeVirtual(ourContainerType, ourAddNoConstraintMethod);
+	}
 }

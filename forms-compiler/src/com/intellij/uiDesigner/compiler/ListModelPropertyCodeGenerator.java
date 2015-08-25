@@ -17,7 +17,6 @@
 package com.intellij.uiDesigner.compiler;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 
 /**
@@ -32,7 +31,7 @@ public class ListModelPropertyCodeGenerator extends PropertyCodeGenerator {
     myListModelType = Type.getType(aClass);
   }
 
-  public void generatePushValue(final GeneratorAdapter generator, final Object value) {
+  public void generatePushValue(final UIGeneratorAdapter generator, final Object value) {
     String[] items = (String[]) value;
     int listModelLocal = generator.newLocal(myListModelType);
 

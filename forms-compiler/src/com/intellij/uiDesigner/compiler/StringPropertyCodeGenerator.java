@@ -131,7 +131,7 @@ public class StringPropertyCodeGenerator extends PropertyCodeGenerator implement
     return false;
   }
 
-  public void generatePushValue(final GeneratorAdapter generator, final Object value) {
+  public void generatePushValue(final UIGeneratorAdapter generator, final Object value) {
     StringDescriptor descriptor = (StringDescriptor) value;
     if (descriptor == null) {
       generator.push((String)null);

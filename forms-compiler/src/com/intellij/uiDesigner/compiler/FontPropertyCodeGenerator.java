@@ -97,7 +97,7 @@ public class FontPropertyCodeGenerator extends PropertyCodeGenerator {
     generator.invokeConstructor(ourFontType, ourInitMethod);
   }
 
-  public void generatePushValue(final GeneratorAdapter generator, final Object value) {
+  public void generatePushValue(final UIGeneratorAdapter generator, final Object value) {
     FontDescriptor descriptor = (FontDescriptor) value;
     if (descriptor.isFixedFont()) {
       if (!descriptor.isFullyDefinedFont()) throw new IllegalStateException("Unexpected font state");

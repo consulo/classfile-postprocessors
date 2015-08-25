@@ -19,23 +19,24 @@ package com.intellij.uiDesigner.compiler;
 import javax.swing.JScrollPane;
 
 import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
 import org.jetbrains.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 
 /**
  * @author yole
  */
-public class ScrollPaneLayoutCodeGenerator extends LayoutCodeGenerator {
-  private final Type myScrollPaneType = Type.getType(JScrollPane.class);
-  private final Method mySetViewportViewMethod = Method.getMethod("void setViewportView(java.awt.Component)");
+public class ScrollPaneLayoutCodeGenerator extends LayoutCodeGenerator
+{
+	private final Type myScrollPaneType = Type.getType(JScrollPane.class);
+	private final Method mySetViewportViewMethod = Method.getMethod("void setViewportView(java.awt.Component)");
 
-  public void generateComponentLayout(final LwComponent lwComponent,
-                                      final GeneratorAdapter generator,
-                                      final int componentLocal,
-                                      final int parentLocal) {
-    generator.loadLocal(parentLocal);
-    generator.loadLocal(componentLocal);
-    generator.invokeVirtual(myScrollPaneType, mySetViewportViewMethod);
-  }
+	public void generateComponentLayout(final LwComponent lwComponent,
+			final UIGeneratorAdapter generator,
+			final int componentLocal,
+			final int parentLocal)
+	{
+		generator.loadLocal(parentLocal);
+		generator.loadLocal(componentLocal);
+		generator.invokeVirtual(myScrollPaneType, mySetViewportViewMethod);
+	}
 }

@@ -23,11 +23,24 @@ public class FormErrorInfo
 {
 	private String myComponentId;
 	private String myErrorMessage;
+	private Throwable myThrowable;
 
 	public FormErrorInfo(final String componentId, final String errorMessage)
 	{
 		myComponentId = componentId;
 		myErrorMessage = errorMessage;
+	}
+
+	public FormErrorInfo(final String componentId, final String errorMessage, Throwable throwable)
+	{
+		myComponentId = componentId;
+		myErrorMessage = errorMessage;
+		myThrowable = throwable;
+	}
+
+	public Throwable getThrowable()
+	{
+		return myThrowable;
 	}
 
 	public String getComponentId()

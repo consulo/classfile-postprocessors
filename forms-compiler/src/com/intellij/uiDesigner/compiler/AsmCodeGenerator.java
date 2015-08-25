@@ -187,11 +187,13 @@ public class AsmCodeGenerator
 		}
 		catch(IOException e)
 		{
-			myErrors.add(new FormErrorInfo(null, "Cannot read or write class file " + classFile.getPath() + ": " + e.toString()));
+			myErrors.add(new FormErrorInfo(null, "Cannot read or write class file " + classFile.getPath() + ": " + e
+					.toString(), e));
 		}
 		catch(IllegalStateException e)
 		{
-			myErrors.add(new FormErrorInfo(null, "Unexpected data in form file when patching class " + classFile.getPath() + ": " + e.toString()));
+			myErrors.add(new FormErrorInfo(null, "Unexpected data in form file when patching class " + classFile
+					.getPath() + ": " + e.toString(), e));
 		}
 	}
 
@@ -204,7 +206,7 @@ public class AsmCodeGenerator
 		}
 		catch(IOException e)
 		{
-			myErrors.add(new FormErrorInfo(null, "Error reading class data stream"));
+			myErrors.add(new FormErrorInfo(null, "Error reading class data stream", e));
 			return null;
 		}
 	}
@@ -424,7 +426,7 @@ public class AsmCodeGenerator
 			}
 			catch(CodeGenerationException e)
 			{
-				myErrors.add(new FormErrorInfo(e.getComponentId(), e.getMessage()));
+				myErrors.add(new FormErrorInfo(e.getComponentId(), e.getMessage(), e));
 			}
 			generator.returnValue();
 			generator.endMethod();

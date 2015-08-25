@@ -19,28 +19,34 @@ package com.intellij.uiDesigner.compiler;
 /**
  * @author yole
  */
-public class FormErrorInfo {
-  private String myComponentId;
-  private String myErrorMessage;
+public class FormErrorInfo
+{
+	private String myComponentId;
+	private String myErrorMessage;
 
-  public FormErrorInfo(final String componentId, final String errorMessage) {
-    myComponentId = componentId;
-    myErrorMessage = errorMessage;
-  }
+	public FormErrorInfo(final String componentId, final String errorMessage)
+	{
+		myComponentId = componentId;
+		myErrorMessage = errorMessage;
+	}
 
-  public String getComponentId() {
-    return myComponentId;
-  }
+	public String getComponentId()
+	{
+		return myComponentId;
+	}
 
-  public void setComponentId(final String componentId) {
-    myComponentId = componentId;
-  }
+	public void setComponentId(final String componentId)
+	{
+		myComponentId = componentId;
+	}
 
-  public String getErrorMessage() {
-    return myErrorMessage;
-  }
+	public String getErrorMessage()
+	{
+		return myErrorMessage;
+	}
 
-  public void setErrorMessage(final String errorMessage) {
-    myErrorMessage = errorMessage;
-  }
+	public void setErrorMessage(final String errorMessage)
+	{
+		myErrorMessage = errorMessage;
+	}
 }

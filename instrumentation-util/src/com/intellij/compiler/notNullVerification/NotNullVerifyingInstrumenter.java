@@ -15,6 +15,8 @@
  */
 package com.intellij.compiler.notNullVerification;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -25,8 +27,8 @@ import org.jetbrains.org.objectweb.asm.Label;
 import org.jetbrains.org.objectweb.asm.MethodVisitor;
 import org.jetbrains.org.objectweb.asm.Opcodes;
 import org.jetbrains.org.objectweb.asm.Type;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import com.intellij.compiler.instrumentation.FailSafeClassReader;
+import com.intellij.compiler.instrumentation.FailSafeMethodVisitor;
 
 /**
  * @author ven
@@ -39,10 +41,6 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 	private static final String SYNTHETIC_TYPE = "L" + SYNTHETIC_CLASS_NAME + ";";
 	private static final String IAE_CLASS_NAME = "java/lang/IllegalArgumentException";
 	private static final String ISE_CLASS_NAME = "java/lang/IllegalStateException";
-	private static final String STRING_CLASS_NAME = "java/lang/String";
-	private static final String OBJECT_CLASS_NAME = "java/lang/Object";
-	private static final String CONSTRUCTOR_NAME = "<init>";
-	private static final String EXCEPTION_INIT_SIGNATURE = "(L" + STRING_CLASS_NAME + ";)V";
 
 	private static final String ANNOTATION_DEFAULT_METHOD = "value";
 
@@ -56,17 +54,20 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 	private String myClassName;
 	private boolean myIsModification = false;
 	private RuntimeException myPostponedError;
+	private final AuxiliaryMethodGenerator myAuxGenerator;
 
 	private NotNullVerifyingInstrumenter(final ClassVisitor classVisitor, ClassReader reader)
 	{
 		super(Opcodes.ASM5, classVisitor);
 		myMethodParamNames = getAllParameterNames(reader);
+		myAuxGenerator = new AuxiliaryMethodGenerator(reader);
 	}
 
-	public static boolean processClassFile(final ClassReader reader, final ClassVisitor writer)
+	public static boolean processClassFile(final FailSafeClassReader reader, final ClassVisitor writer)
 	{
 		final NotNullVerifyingInstrumenter instrumenter = new NotNullVerifyingInstrumenter(writer, reader);
 		reader.accept(instrumenter, 0);
+		instrumenter.myAuxGenerator.generateReportingMethod(writer);
 		return instrumenter.isModification();
 	}
 
@@ -78,38 +79,39 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 		{
 			private String myClassName = null;
 
-			@Override
-			public void visit(final int version,
-					final int access,
-					final String name,
-					final String signature,
-					final String superName,
-					final String[] interfaces)
+			public void visit(final int version, final int access, final String name, final String signature, final String superName, final String[] interfaces)
 			{
 				myClassName = name;
 			}
 
-			@Override
-			public MethodVisitor visitMethod(final int access,
-					final String name,
-					final String desc,
-					final String signature,
-					final String[] exceptions)
+			public MethodVisitor visitMethod(final int access, final String name, final String desc, final String signature, final String[] exceptions)
 			{
 				final String methodName = myClassName + '.' + name + desc;
 				final Map<Integer, String> names = new LinkedHashMap<Integer, String>();
 				final Type[] args = Type.getArgumentTypes(desc);
 				methodParamNames.put(methodName, names);
 
+				final boolean isStatic = (access & ACC_STATIC) != 0;
+
+				final Map<Integer, Integer> paramSlots = new LinkedHashMap<Integer, Integer>(); // map: localVariableSlot -> methodParameterIndex
+				int slotIndex = isStatic ? 0 : 1;
+				for(int paramIndex = 0; paramIndex < args.length; paramIndex++)
+				{
+					final Type arg = args[paramIndex];
+					paramSlots.put(slotIndex, paramIndex);
+					slotIndex += arg.getSize();
+				}
+
 				return new MethodVisitor(api)
 				{
+
 					@Override
-					public void visitLocalVariable(String name2, String desc, String signature, Label start, Label end, int index)
+					public void visitLocalVariable(String name2, String desc, String signature, Label start, Label end, int slotIndex)
 					{
-						int parameterIndex = getParameterIndex(index, access, args);
-						if(parameterIndex >= 0)
+						final Integer paramIndex = paramSlots.get(slotIndex);
+						if(paramIndex != null)
 						{
-							names.put(parameterIndex, name2);
+							names.put(paramIndex, name2);
 						}
 					}
 				};
@@ -132,9 +134,7 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 
 	private static class NotNullState
 	{
-		@Nullable
 		String message;
-		@NotNull
 		String exceptionType;
 
 		NotNullState(String exceptionType)
@@ -146,11 +146,16 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 	@Override
 	public MethodVisitor visitMethod(final int access, final String name, String desc, String signature, String[] exceptions)
 	{
+		if((access & Opcodes.ACC_BRIDGE) != 0)
+		{
+			return new FailSafeMethodVisitor(Opcodes.ASM5, super.visitMethod(access, name, desc, signature, exceptions));
+		}
+
 		final Type[] args = Type.getArgumentTypes(desc);
 		final Type returnType = Type.getReturnType(desc);
 		final MethodVisitor v = cv.visitMethod(access, name, desc, signature, exceptions);
 		final Map<Integer, String> paramNames = myMethodParamNames.get(myClassName + '.' + name + desc);
-		return new MethodVisitor(Opcodes.ASM5, v)
+		return new FailSafeMethodVisitor(Opcodes.ASM5, v)
 		{
 			private final Map<Integer, NotNullState> myNotNullParams = new LinkedHashMap<Integer, NotNullState>();
 			private int mySyntheticCount = 0;
@@ -177,7 +182,6 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 				};
 			}
 
-			@Override
 			public AnnotationVisitor visitParameterAnnotation(final int parameter, final String anno, final boolean visible)
 			{
 				AnnotationVisitor av = mv.visitParameterAnnotation(parameter, anno, visible);
@@ -232,14 +236,13 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 
 					NotNullState state = entry.getValue();
 					String paramName = paramNames == null ? null : paramNames.get(param);
-					String descrPattern = state.message != null ? state.message : paramName != null ? NULL_ARG_MESSAGE_NAMED :
-							NULL_ARG_MESSAGE_INDEXED;
+					String descrPattern = state.message != null ? state.message : paramName != null ? NULL_ARG_MESSAGE_NAMED : NULL_ARG_MESSAGE_INDEXED;
 					String[] args = state.message != null ? EMPTY_STRING_ARRAY : new String[]{
 							paramName != null ? paramName : String.valueOf(param - mySyntheticCount),
 							myClassName,
 							name
 					};
-					generateThrow(state.exceptionType, end, descrPattern, args);
+					reportError(state.exceptionType, end, descrPattern, args);
 				}
 			}
 
@@ -267,36 +270,17 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 								myClassName,
 								name
 						};
-						generateThrow(myMethodNotNull.exceptionType, skipLabel, descrPattern, args);
+						reportError(myMethodNotNull.exceptionType, skipLabel, descrPattern, args);
 					}
 				}
 
 				mv.visitInsn(opcode);
 			}
 
-			private void generateThrow(final String exceptionClass, final Label end, final String descrPattern, final String[] args)
+			private void reportError(final String exceptionClass, final Label end, final String descrPattern, final String[] args)
 			{
-				mv.visitTypeInsn(NEW, exceptionClass);
-				mv.visitInsn(DUP);
+				myAuxGenerator.reportError(mv, myClassName, exceptionClass, descrPattern, args);
 
-				mv.visitLdcInsn(descrPattern);
-
-				mv.visitLdcInsn(args.length);
-				mv.visitTypeInsn(ANEWARRAY, OBJECT_CLASS_NAME);
-
-				for(int i = 0; i < args.length; i++)
-				{
-					mv.visitInsn(DUP);
-					mv.visitLdcInsn(i);
-					mv.visitLdcInsn(args[i]);
-					mv.visitInsn(AASTORE);
-				}
-
-				//noinspection SpellCheckingInspection
-				mv.visitMethodInsn(INVOKESTATIC, STRING_CLASS_NAME, "format", "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;", false);
-
-				mv.visitMethodInsn(INVOKESPECIAL, exceptionClass, CONSTRUCTOR_NAME, EXCEPTION_INIT_SIGNATURE, false);
-				mv.visitInsn(ATHROW);
 				mv.visitLabel(end);
 
 				myIsModification = true;
@@ -319,17 +303,6 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 		};
 	}
 
-	private static int getParameterIndex(int localVarIndex, int methodAccess, Type[] paramTypes)
-	{
-		final boolean isStatic = (methodAccess & ACC_STATIC) != 0;
-		int parameterIndex = isStatic ? localVarIndex : localVarIndex - 1;
-		if(parameterIndex >= paramTypes.length)
-		{
-			parameterIndex = -1;
-		}
-		return parameterIndex;
-	}
-
 	private static boolean isReferenceType(final Type type)
 	{
 		return type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY;
@@ -345,8 +318,20 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 			{
 				err = e;
 			}
-			myPostponedError = new RuntimeException("Operation '" + operationName + "' failed for " + myClassName + "." + methodName + "(): " + err
-					.getMessage(), err);
+			final StringBuilder message = new StringBuilder();
+			message.append("Operation '").append(operationName).append("' failed for ").append(myClassName).append(".").append(methodName).append("(): ");
+
+			final String errMessage = err.getMessage();
+			if(errMessage != null)
+			{
+				message.append(errMessage);
+			}
+
+			final ByteArrayOutputStream out = new ByteArrayOutputStream();
+			err.printStackTrace(new PrintStream(out));
+			message.append('\n').append(out.toString());
+
+			myPostponedError = new RuntimeException(message.toString(), err);
 		}
 		if(myIsModification)
 		{
@@ -363,4 +348,3 @@ public class NotNullVerifyingInstrumenter extends ClassVisitor implements Opcode
 		}
 	}
 }
-

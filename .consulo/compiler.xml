@@ -25,6 +25,12 @@
       <output url="file://$PROJECT_DIR$/javac2/target/test-classes" type="TEST" />
       <output url="file://$PROJECT_DIR$/javac2/target/test-classes" type="TEST_RESOURCE" />
     </module>
+    <module name="notnull-compiler" exclude="false">
+      <output url="file://$PROJECT_DIR$/notnull-compiler/target/classes" type="PRODUCTION" />
+      <output url="file://$PROJECT_DIR$/notnull-compiler/target/classes" type="PRODUCTION_RESOURCE" />
+      <output url="file://$PROJECT_DIR$/notnull-compiler/target/test-classes" type="TEST" />
+      <output url="file://$PROJECT_DIR$/notnull-compiler/target/test-classes" type="TEST_RESOURCE" />
+    </module>
   </component>
   <component name="JavaCompilerConfiguration" compiler="JavacCompiler" add-not-null-assertions="true">
     <annotation-processing>
@@ -51,6 +57,13 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="javac2" />
+      </profile>
+      <profile default="false" name="Annotation profile for notnull-compiler" enabled="true">
+        <sourceOutputDir name="target\generated-sources\annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="notnull-compiler" />
       </profile>
     </annotation-processing>
     <bytecode-target-level target="1.6" />

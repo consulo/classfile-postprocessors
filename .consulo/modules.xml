@@ -68,6 +68,28 @@
           <orderEntry type="library" name="Maven: consulo.internal:objectweb-asm:6.0" level="project" />
           <orderEntry type="library" name="Maven: com.jgoodies:jgoodies-forms:1.9.0" level="project" />
           <orderEntry type="library" name="Maven: com.jgoodies:jgoodies-common:1.8.1" level="project" />
+          <orderEntry type="module" module-name="notnull-compiler" />
+        </module-layer>
+      </module>
+      <module name="notnull-compiler" dirurl="file://$PROJECT_DIR$/notnull-compiler" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="java" sdk-name="1.8 with tools" language-level-name="JDK_1_5" bytecode-version="1.5" />
+          <extension id="maven" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src/main/java" />
+            <content-folder type="EXCLUDED" url="file://$MODULE_DIR$/target" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="sourceFolder" />
+          <orderEntry type="library" name="Maven: consulo.internal:forms_rt:1.0" level="project" />
+          <orderEntry type="library" name="Maven: consulo.internal:jdom:2.1" level="project" />
+          <orderEntry type="library" name="Maven: jaxen:jaxen:1.1.6" level="project" />
+          <orderEntry type="module" module-name="instrumentation-util" />
+          <orderEntry type="library" name="Maven: consulo.internal:objectweb-asm:6.0" level="project" />
+          <orderEntry type="library" name="Maven: com.jgoodies:jgoodies-forms:1.9.0" level="project" />
+          <orderEntry type="library" name="Maven: com.jgoodies:jgoodies-common:1.8.1" level="project" />
+          <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
+          <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
         </module-layer>
       </module>
     </modules>

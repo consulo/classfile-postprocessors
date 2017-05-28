@@ -13,6 +13,7 @@
 	<modules>
 		<module>instrumentation-util</module>
 		<module>forms-compiler</module>
+		<module>notnull-compiler</module>
 		<module>javac2</module>
 	</modules>
 

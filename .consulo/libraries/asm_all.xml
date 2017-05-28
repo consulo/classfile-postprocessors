@@ -1,7 +1,0 @@
-<component name="libraryTable">
-  <library name="asm-all">
-    <binaries>
-      <root url="jar://$PROJECT_DIR$/lib/asm-all.jar!/" />
-    </binaries>
-  </library>
-</component>

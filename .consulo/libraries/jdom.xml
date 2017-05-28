@@ -1,7 +1,0 @@
-<component name="libraryTable">
-  <library name="jdom">
-    <binaries>
-      <root url="jar://$PROJECT_DIR$/lib/jdom.jar!/" />
-    </binaries>
-  </library>
-</component>

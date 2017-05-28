@@ -742,7 +742,6 @@ public class InstrumentationClassFinder
 					{
 						return new Resource()
 						{
-							@Override
 							public InputStream getInputStream() throws IOException
 							{
 								return new BufferedInputStream(new FileInputStream(file));
@@ -833,7 +832,6 @@ public class InstrumentationClassFinder
 						{
 							return new Resource()
 							{
-								@Override
 								public InputStream getInputStream() throws IOException
 								{
 									try

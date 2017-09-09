@@ -59,6 +59,11 @@
 			<version>2.0</version>
 		</dependency>
 		<dependency>
+			<groupId>consulo.internal</groupId>
+			<artifactId>instrumentation-util8</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>jgoodies-forms</artifactId>
 			<version>1.9.0</version>

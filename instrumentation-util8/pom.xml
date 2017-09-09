@@ -5,22 +5,25 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>consulo.internal</groupId>
-	<artifactId>classfile-postprocessors-group</artifactId>
-	<version>1.0</version>
+	<artifactId>instrumentation-util8</artifactId>
+	<version>2.0</version>
 
-	<packaging>pom</packaging>
-
-	<modules>
-		<module>instrumentation-util</module>
-		<module>instrumentation-util8</module>
-		<module>forms-compiler</module>
-		<module>notnull-compiler</module>
-		<module>javac2</module>
-	</modules>
+	<packaging>jar</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>consulo</id>
+			<url>https://maven.consulo.io/repository/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
@@ -29,8 +32,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 					<fork>true</fork>
@@ -38,4 +41,12 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>consulo.internal</groupId>
+			<artifactId>instrumentation-util</artifactId>
+			<version>2.0</version>
+		</dependency>
+	</dependencies>
 </project>

@@ -58,6 +58,7 @@ public class Javac2 extends Javac
 	private List myNestedFormPathList;
 	private boolean instrumentNotNull = true;
 	private List<Regexp> myClassFilterAnnotationRegexpList = new ArrayList<Regexp>(0);
+	private String myNotNullAnnotations = "org.jetbrains.annotations.NotNull";
 
 	public Javac2()
 	{
@@ -350,14 +351,8 @@ public class Javac2 extends Javac
 			final File alreadyProcessedForm = (File) class2form.get(classToBind);
 			if(alreadyProcessedForm != null)
 			{
-				fireError(formFile.getAbsolutePath() +
-						": " +
-						"The form is bound to the class " +
-						classToBind +
-						".\n" +
-						"Another form " +
-						alreadyProcessedForm.getAbsolutePath() +
-						" is also bound to this class.");
+				fireError(formFile.getAbsolutePath() + ": " + "The form is bound to the class " + classToBind + ".\n" + "Another form " + alreadyProcessedForm.getAbsolutePath() + " is also bound to " +
+						"this class.");
 				continue;
 			}
 			class2form.put(classToBind, formFile);
@@ -521,7 +516,7 @@ public class Javac2 extends Javac
 						{
 							ClassWriter writer = new InstrumenterClassWriter(reader, getAsmClassWriterFlags(version), finder);
 
-							if(NotNullVerifyingInstrumenter.processClassFile(reader, writer))
+							if(NotNullVerifyingInstrumenter.processClassFile(reader, writer, myNotNullAnnotations.split(";")))
 							{
 								final FileOutputStream fileOutputStream = new FileOutputStream(path);
 								try

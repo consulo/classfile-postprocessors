@@ -15,10 +15,10 @@
  */
 package com.intellij.compiler.instrumentation;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.TypePath;
+import consulo.internal.org.objectweb.asm.AnnotationVisitor;
+import consulo.internal.org.objectweb.asm.Label;
+import consulo.internal.org.objectweb.asm.MethodVisitor;
+import consulo.internal.org.objectweb.asm.TypePath;
 
 /**
  * To be used together with FailSafeClassReader: adds null checks for labels describing annotation visibility range.

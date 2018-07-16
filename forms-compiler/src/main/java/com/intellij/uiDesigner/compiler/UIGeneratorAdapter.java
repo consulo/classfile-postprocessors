@@ -1,10 +1,10 @@
 package com.intellij.uiDesigner.compiler;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import consulo.internal.org.objectweb.asm.ClassVisitor;
+import consulo.internal.org.objectweb.asm.Opcodes;
+import consulo.internal.org.objectweb.asm.Type;
+import consulo.internal.org.objectweb.asm.commons.GeneratorAdapter;
+import consulo.internal.org.objectweb.asm.commons.Method;
 
 /**
  * @author VISTALL

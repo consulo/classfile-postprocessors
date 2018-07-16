@@ -22,17 +22,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.TypePath;
-import org.objectweb.asm.TypeReference;
-import org.objectweb.asm.signature.SignatureReader;
-import org.objectweb.asm.signature.SignatureVisitor;
+import consulo.internal.org.objectweb.asm.AnnotationVisitor;
+import consulo.internal.org.objectweb.asm.ClassReader;
+import consulo.internal.org.objectweb.asm.ClassVisitor;
+import consulo.internal.org.objectweb.asm.Label;
+import consulo.internal.org.objectweb.asm.MethodVisitor;
+import consulo.internal.org.objectweb.asm.Opcodes;
+import consulo.internal.org.objectweb.asm.Type;
+import consulo.internal.org.objectweb.asm.TypePath;
+import consulo.internal.org.objectweb.asm.TypeReference;
+import consulo.internal.org.objectweb.asm.signature.SignatureReader;
+import consulo.internal.org.objectweb.asm.signature.SignatureVisitor;
 import com.intellij.compiler.instrumentation.FailSafeClassReader;
 import com.intellij.compiler.instrumentation.FailSafeMethodVisitor;
 

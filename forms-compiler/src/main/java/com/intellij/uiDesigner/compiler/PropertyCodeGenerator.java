@@ -17,7 +17,7 @@ package com.intellij.uiDesigner.compiler;
 
 import java.io.IOException;
 
-import org.objectweb.asm.commons.GeneratorAdapter;
+import consulo.internal.org.objectweb.asm.commons.GeneratorAdapter;
 import com.intellij.compiler.instrumentation.InstrumentationClassFinder;
 import com.intellij.uiDesigner.lw.LwComponent;
 import com.intellij.uiDesigner.lw.LwIntrospectedProperty;

@@ -15,7 +15,7 @@
  */
 package com.intellij.compiler.notNullVerification;
 
-import static org.objectweb.asm.Opcodes.*;
+import static consulo.internal.org.objectweb.asm.Opcodes.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
+import consulo.internal.org.objectweb.asm.ClassReader;
+import consulo.internal.org.objectweb.asm.ClassVisitor;
+import consulo.internal.org.objectweb.asm.Label;
+import consulo.internal.org.objectweb.asm.MethodVisitor;
 
 /**
  * @author peter

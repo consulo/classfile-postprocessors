@@ -18,9 +18,9 @@ package com.intellij.uiDesigner.compiler;
 import java.awt.Container;
 import java.awt.Dimension;
 
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
+import consulo.internal.org.objectweb.asm.Opcodes;
+import consulo.internal.org.objectweb.asm.Type;
+import consulo.internal.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 import com.intellij.uiDesigner.lw.LwContainer;
 

@@ -23,9 +23,9 @@ import java.util.Set;
 import javax.swing.AbstractButton;
 import javax.swing.JLabel;
 
-import org.objectweb.asm.*;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import consulo.internal.org.objectweb.asm.*;
+import consulo.internal.org.objectweb.asm.commons.GeneratorAdapter;
+import consulo.internal.org.objectweb.asm.commons.Method;
 import com.intellij.compiler.instrumentation.InstrumentationClassFinder;
 import com.intellij.uiDesigner.core.SupportCode;
 import com.intellij.uiDesigner.lw.LwComponent;

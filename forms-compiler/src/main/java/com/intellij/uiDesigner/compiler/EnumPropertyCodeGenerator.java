@@ -16,7 +16,7 @@
 
 package com.intellij.uiDesigner.compiler;
 
-import org.objectweb.asm.Type;
+import consulo.internal.org.objectweb.asm.Type;
 
 /**
  * @author yole

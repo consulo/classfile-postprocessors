@@ -17,8 +17,8 @@ package com.intellij.uiDesigner.compiler;
 
 import javax.swing.ImageIcon;
 
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
+import consulo.internal.org.objectweb.asm.Type;
+import consulo.internal.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.IconDescriptor;
 
 /**

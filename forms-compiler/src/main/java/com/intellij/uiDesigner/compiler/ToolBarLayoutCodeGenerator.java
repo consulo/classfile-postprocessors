@@ -16,7 +16,7 @@
 
 package com.intellij.uiDesigner.compiler;
 
-import org.objectweb.asm.commons.Method;
+import consulo.internal.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 
 /**

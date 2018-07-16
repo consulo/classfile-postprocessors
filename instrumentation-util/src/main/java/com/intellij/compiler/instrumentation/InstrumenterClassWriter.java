@@ -1,7 +1,7 @@
 package com.intellij.compiler.instrumentation;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
+import consulo.internal.org.objectweb.asm.ClassReader;
+import consulo.internal.org.objectweb.asm.ClassWriter;
 
 /**
  * @author Eugene Zhuravlev

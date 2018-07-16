@@ -23,9 +23,9 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import consulo.internal.org.objectweb.asm.Type;
+import consulo.internal.org.objectweb.asm.commons.GeneratorAdapter;
+import consulo.internal.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.core.Spacer;
 import com.intellij.uiDesigner.lw.LwComponent;
 import com.intellij.uiDesigner.lw.LwContainer;

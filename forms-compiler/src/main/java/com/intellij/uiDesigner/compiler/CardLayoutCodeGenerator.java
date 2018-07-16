@@ -17,8 +17,8 @@ package com.intellij.uiDesigner.compiler;
 
 import java.awt.CardLayout;
 
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
+import consulo.internal.org.objectweb.asm.Type;
+import consulo.internal.org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.UIFormXmlConstants;
 import com.intellij.uiDesigner.lw.LwComponent;
 

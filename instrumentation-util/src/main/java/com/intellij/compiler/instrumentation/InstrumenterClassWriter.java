@@ -1,7 +1,7 @@
 package com.intellij.compiler.instrumentation;
 
-import org.jetbrains.org.objectweb.asm.ClassReader;
-import org.jetbrains.org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 
 /**
  * @author Eugene Zhuravlev

@@ -18,8 +18,8 @@ package com.intellij.compiler.instrumentation;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jetbrains.org.objectweb.asm.ClassReader;
-import org.jetbrains.org.objectweb.asm.Label;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.Label;
 
 public class FailSafeClassReader extends ClassReader
 {

@@ -33,12 +33,12 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.util.regexp.Regexp;
-import org.jetbrains.org.objectweb.asm.AnnotationVisitor;
-import org.jetbrains.org.objectweb.asm.ClassReader;
-import org.jetbrains.org.objectweb.asm.ClassVisitor;
-import org.jetbrains.org.objectweb.asm.ClassWriter;
-import org.jetbrains.org.objectweb.asm.Opcodes;
-import org.jetbrains.org.objectweb.asm.Type;
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import com.intellij.compiler.instrumentation.FailSafeClassReader;
 import com.intellij.compiler.instrumentation.InstrumentationClassFinder;
 import com.intellij.compiler.instrumentation.InstrumenterClassWriter;
@@ -58,7 +58,7 @@ public class Javac2 extends Javac
 	private List myNestedFormPathList;
 	private boolean instrumentNotNull = true;
 	private List<Regexp> myClassFilterAnnotationRegexpList = new ArrayList<Regexp>(0);
-	private String myNotNullAnnotations = "org.jetbrains.annotations.NotNull";
+	private String myNotNullAnnotations = "annotations.NotNull";
 
 	public Javac2()
 	{

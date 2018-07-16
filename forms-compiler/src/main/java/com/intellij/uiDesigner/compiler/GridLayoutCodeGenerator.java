@@ -15,8 +15,8 @@
  */
 package com.intellij.uiDesigner.compiler;
 
-import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.Method;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.lw.LwComponent;

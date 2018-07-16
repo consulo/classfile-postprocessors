@@ -16,8 +16,8 @@
 
 package com.intellij.uiDesigner.compiler;
 
-import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.Method;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.Method;
 
 /**
  * @author yole

@@ -23,9 +23,9 @@ import java.util.Set;
 import javax.swing.AbstractButton;
 import javax.swing.JLabel;
 
-import org.jetbrains.org.objectweb.asm.*;
-import org.jetbrains.org.objectweb.asm.commons.GeneratorAdapter;
-import org.jetbrains.org.objectweb.asm.commons.Method;
+import org.objectweb.asm.*;
+import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
 import com.intellij.compiler.instrumentation.InstrumentationClassFinder;
 import com.intellij.uiDesigner.core.SupportCode;
 import com.intellij.uiDesigner.lw.LwComponent;

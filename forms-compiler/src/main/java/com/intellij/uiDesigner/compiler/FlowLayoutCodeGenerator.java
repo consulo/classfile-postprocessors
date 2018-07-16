@@ -18,8 +18,8 @@ package com.intellij.uiDesigner.compiler;
 
 import java.awt.FlowLayout;
 
-import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.Method;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 import com.intellij.uiDesigner.lw.LwContainer;
 

@@ -18,8 +18,8 @@ package com.intellij.uiDesigner.compiler;
 import java.awt.Color;
 import java.awt.SystemColor;
 
-import org.jetbrains.org.objectweb.asm.Type;
-import org.jetbrains.org.objectweb.asm.commons.Method;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.ColorDescriptor;
 
 /**

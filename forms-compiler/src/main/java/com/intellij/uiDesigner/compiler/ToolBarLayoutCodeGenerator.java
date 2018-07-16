@@ -16,7 +16,7 @@
 
 package com.intellij.uiDesigner.compiler;
 
-import org.jetbrains.org.objectweb.asm.commons.Method;
+import org.objectweb.asm.commons.Method;
 import com.intellij.uiDesigner.lw.LwComponent;
 
 /**

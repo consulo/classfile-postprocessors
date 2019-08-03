@@ -15,14 +15,16 @@
  */
 package com.intellij.compiler.instrumentation;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import consulo.internal.org.objectweb.asm.ClassReader;
 import consulo.internal.org.objectweb.asm.Label;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class FailSafeClassReader extends ClassReader
 {
+	private static final Label INVALID = new Label();
+
 	public FailSafeClassReader(byte[] b)
 	{
 		super(b);
@@ -49,6 +51,13 @@ public class FailSafeClassReader extends ClassReader
 		// attempt to workaround javac bug:
 		// annotation table from original method is duplicated for synthetic bridge methods.
 		// All offsets in the duplicated table is taken from original annotations table and obviously are not relevant for the bridge method
-		return offset < labels.length && offset >= 0 ? super.readLabel(offset, labels) : null;
+		if(offset >= 0 && offset < labels.length)
+		{
+			return super.readLabel(offset, labels);
+		}
+		else
+		{
+			return INVALID;
+		}
 	}
 }

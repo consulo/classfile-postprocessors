@@ -21,6 +21,7 @@ import consulo.internal.org.objectweb.asm.MethodVisitor;
 import consulo.internal.org.objectweb.asm.TypePath;
 
 /**
+ * /**
  * To be used together with FailSafeClassReader: adds null checks for labels describing annotation visibility range.
  * For incorrectly generated annotations FailSafeClassReader returns null labels. Local variables annotations with null labels
  * will be ignored by this visitor.
@@ -32,6 +33,7 @@ public class FailSafeMethodVisitor extends MethodVisitor
 		super(api, mv);
 	}
 
+	@Override
 	public AnnotationVisitor visitLocalVariableAnnotation(int typeRef, TypePath typePath, Label[] start, Label[] end, int[] index, String desc, boolean visible)
 	{
 		for(Label aStart : start)

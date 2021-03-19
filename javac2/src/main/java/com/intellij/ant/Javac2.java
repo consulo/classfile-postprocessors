@@ -557,7 +557,7 @@ public class Javac2 extends Javac
 	private static int getClassFileVersion(ClassReader reader)
 	{
 		final int[] classfileVersion = new int[1];
-		reader.accept(new ClassVisitor(Opcodes.ASM5)
+		reader.accept(new ClassVisitor(Opcodes.API_VERSION)
 		{
 			public void visit(int version, int access, String name, String signature, String superName, String[] interfaces)
 			{
@@ -576,7 +576,7 @@ public class Javac2 extends Javac
 		}
 
 		final boolean[] result = new boolean[]{false};
-		reader.accept(new ClassVisitor(Opcodes.ASM5)
+		reader.accept(new ClassVisitor(Opcodes.API_VERSION)
 		{
 			public AnnotationVisitor visitAnnotation(String desc, boolean visible)
 			{

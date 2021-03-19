@@ -304,7 +304,7 @@ public class AsmCodeGenerator
 
 		public FormClassVisitor(final ClassVisitor cv, final boolean explicitSetupCall)
 		{
-			super(Opcodes.ASM5, cv);
+			super(Opcodes.API_VERSION, cv);
 			myExplicitSetupCall = explicitSetupCall;
 		}
 
@@ -1107,7 +1107,7 @@ public class AsmCodeGenerator
 
 		public FormConstructorVisitor(final MethodVisitor mv, final String className, final String superName)
 		{
-			super(Opcodes.ASM5, mv);
+			super(Opcodes.API_VERSION, mv);
 			myClassName = className;
 			mySuperName = superName;
 		}
@@ -1184,7 +1184,7 @@ public class AsmCodeGenerator
 
 		public FirstPassClassVisitor()
 		{
-			super(Opcodes.ASM5, new ClassVisitor(Opcodes.ASM5)
+			super(Opcodes.API_VERSION, new ClassVisitor(Opcodes.API_VERSION)
 			{
 			});
 		}
@@ -1208,7 +1208,7 @@ public class AsmCodeGenerator
 		{
 			public FirstPassConstructorVisitor()
 			{
-				super(Opcodes.ASM5, new MethodVisitor(Opcodes.ASM5)
+				super(Opcodes.API_VERSION, new MethodVisitor(Opcodes.API_VERSION)
 				{
 				});
 			}

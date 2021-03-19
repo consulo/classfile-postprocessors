@@ -25,7 +25,7 @@ public class UIGeneratorAdapter extends GeneratorAdapter
 			ClassVisitor cv,
 			boolean useJBScaling)
 	{
-		super(Opcodes.ASM5, cv.visitMethod(access, method.getName(), method.getDescriptor(), signature,
+		super(Opcodes.API_VERSION, cv.visitMethod(access, method.getName(), method.getDescriptor(), signature,
 				getInternalNames(exceptions)), access, method.getName(), method.getDescriptor());
 		myUseJBScaling = useJBScaling;
 	}

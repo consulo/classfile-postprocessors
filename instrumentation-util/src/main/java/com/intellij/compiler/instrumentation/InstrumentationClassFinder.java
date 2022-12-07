@@ -574,9 +574,8 @@ public class InstrumentationClassFinder
 		InputStream getInputStream() throws IOException;
 	}
 
-	static class ClassFinderClasspath
+	public static class ClassFinderClasspath
 	{
-
 		private final Stack<URL> myUrls = new Stack<URL>();
 		private final List<Loader> myLoaders = new ArrayList<Loader>();
 		private final Map<URL, Loader> myLoadersMap = new HashMap<URL, Loader>();
@@ -692,7 +691,7 @@ public class InstrumentationClassFinder
 		}
 
 
-		abstract static class Loader
+		public abstract static class Loader
 		{
 			protected static final String JAR_PROTOCOL = "jar";
 			protected static final String FILE_PROTOCOL = "file";
@@ -1007,7 +1006,7 @@ public class InstrumentationClassFinder
 			Constructor<? extends ClassFinderClasspath.Loader> constructor = null;
 			try
 			{
-				aClass = Class.forName("com.intellij.compiler.instrumentation.JrtLoader").asSubclass(ClassFinderClasspath.Loader.class);
+				aClass = Class.forName("com.intellij.compiler.instrumentation.java8.JrtLoader").asSubclass(ClassFinderClasspath.Loader.class);
 				constructor = aClass.getDeclaredConstructor(URL.class, int.class);
 				constructor.setAccessible(true);
 			}

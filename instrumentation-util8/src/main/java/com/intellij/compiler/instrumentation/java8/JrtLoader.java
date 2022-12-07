@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.compiler.instrumentation;
+package com.intellij.compiler.instrumentation.java8;
+
+import com.intellij.compiler.instrumentation.InstrumentationClassFinder;
 
 import java.io.IOException;
 import java.net.URI;

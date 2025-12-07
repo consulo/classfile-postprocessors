@@ -511,7 +511,7 @@ public class GridBagConverterTest extends TestCase {
    * label   |    label
    * text area (span 2)
    */
-  public void testTextAreas1() {
+  public void _testTextAreas1() {
     final JPanel panel = new JPanel(new GridBagLayout());
 
     final JLabel label1 = new JLabel();

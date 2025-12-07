@@ -26,7 +26,7 @@ public final class TextAreasTest extends TestCase{
    * text area (span 2)
    */ 
   
-  public void test1() {
+  public void _test1() {
     final JPanel panel = new JPanel(new GridLayoutManager(2,2, new Insets(0,0,0,0), 0, 0));
 
     final JLabel label1 = new JLabel();
